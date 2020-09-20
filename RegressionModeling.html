@@ -25,9 +25,9 @@
         </header>
         <nav id="nav">
             <ul>
-                <li><a href="#one" class="active">About</a></li>
-                <li><a href="#two">Things I Can Do</a></li>
-                <li><a href="#three">A Few Accomplishments</a></li>
+                <li><a href="#ProjectIntroduction" class="active">Project Introduction</a></li>
+                <li><a href="#InitialModel">Initial Model</a></li>
+                <li><a href="#FinalModel">Final Model</a></li>
                 <li><a href="#four">Contact</a></li>
             </ul>
         </nav>
@@ -49,68 +49,176 @@
         <div id="main">
 
             <!-- One -->
-            <section id="one">
+            <section id="ProjectIntroduction">
                 <div class="image main" data-position="center">
                     <img src="images/banner.jpg" alt="" />
                 </div>
                 <div class="container">
                     <header class="major">
-                        <h2>Regression Analysis</h2>
+                        <h2>Response Optimization</h2>
                         <p>
-                            Statistics in R
+                            Multivariable Linear Regression Modeling in R
                         </p>
                     </header>
                     <p>
-                        All the analysis for this project was performed using R and the following libraries: readxl, apaTables, plotly, xlsx, akima, and MASS. The data for this regression analysis was collected based on a response surface DOE that had been provided to the client in a previous project. All client-specific information has been altered for confidentiality reasons, including the variable names and data. <br\>
+                        All the analysis for this project was performed using R and the following libraries: readxl, apaTables, plotly, xlsx, akima, 
+                        and MASS. The data for this regression analysis was collected based on a response surface DOE that had been provided to the 
+                        client in a previous project. All client-specific information has been altered for confidentiality reasons, including the 
+                        variable names and data. <br\>
                         The intent of this project was to identify process inputs (X1-X4) to minimize a specific output (O1).
                     </p>
                 </div>
             </section>
 
             <!-- Two -->
-            <section id="two">
+            <section id="InitialModel">
                 <div class="container">
-                    <h3>Things I Can Do</h3>
-                    <p>"Knowledge is not something something a learner absorbs, but something a learner creates."<br /> - George Couros<br /> Below is a list of projects I've created using the skills I have learned.</p>
-                    <ul class="feature-icons">
-                        <li class="icon solid fa-chart-line"><a href="RegressionModeling.html">Regression Modeling</a></li>
-                        <li class="icon solid fa-vector-square">Experimental Design</li>
-                        <li class="icon solid fa-tools">Python Development</li>
-                        <li class="icon solid fa-registered">R Programming</li>
-                        <li class="icon solid fa-book">Advanced Statistics</li>
-                        <li class="icon solid fa-table">Excel VBA</li>
-                    </ul>
+                    <h3>Initial Model</h3>
+
+                    <table>
+                        <tr>
+                            <th>Predictor</th>
+                            <th>Coeff</th>
+                            <th>P-Value</th>
+                        </tr>
+                        <tr>
+                            <td>Intercept</td>
+                            <td>117.4</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X1</td>
+                            <td>2.055</td>
+                            <td>0.1725</td>
+                        </tr>
+                        <tr>
+                            <td>X2</td>
+                            <td>-3.341</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X3</td>
+                            <td>-0.9998</td>
+                            <td>0.4036</td>
+                        </tr>
+                        <tr>
+                            <td>X4</td>
+                            <td>3.025</td>
+                            <td>0.2252</td>
+                        </tr>
+                        <tr>
+                            <td>I(X1^2)</td>
+                            <td>0.03794</td>
+                            <td>0.5344</td>
+                        </tr>
+                        <tr>
+                            <td>I(X2^2)</td>
+                            <td>0.05060</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>I(X3^2)</td>
+                            <td>0.07057</td>
+                            <td>0.0920</td>
+                        </tr>
+                        <tr>
+                            <td>I(X4^2)</td>
+                            <td>-0.1446</td>
+                            <td>0.3965</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X2</td>
+                            <td>0.01157</td>
+                            <td>0.5000</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X3</td>
+                            <td>-0.05337</td>
+                            <td>0.4126</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X4</td>
+                            <td>-0.2526</td>
+                            <td>0.0713</td>
+                        </tr>
+                        <tr>
+                            <td>X2:X3</td>
+                            <td>0.01051</td>
+                            <td>0.4506</td>
+                        </tr>
+                        <tr>
+                            <td>X2:X4</td>
+                            <td>0.00067</td>
+                            <td>0.9812</td>
+                        </tr>
+                        <tr>
+                            <td>X3:X4</td>
+                            <td>-0.07363</td>
+                            <td>0.4961</td>
+                        </tr>
+                    </table>
+                    <p>
+                        The R^2 value for this model is 0.96, but it is clear the model is overfit. <br />
+                        There are actually a few key hints for this, the first being the non-significant p-values for most of the factors. Normally, the use of 
+                        R^2-adj would be an indicator for an over-fit model, but in this case, it is 0.93, which is very close to the R^2. However, if we go through 
+                        the effort to calculate R^2-pred, we will see a major drop: 0.81.
+                    </p>
                 </div>
             </section>
 
             <!-- Three -->
-            <section id="three">
+            <section id="FinalModel">
                 <div class="container">
-                    <h3>A Few Accomplishments</h3>
-                    <p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum integer. Integer eu ante ornare amet commetus.</p>
-                    <div class="features">
-                        <article>
-                            <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                            <div class="inner">
-                                <h4>Possibly broke spacetime</h4>
-                                <p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer adipiscing ornare amet.</p>
-                            </div>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-                            <div class="inner">
-                                <h4>Terraformed a small moon</h4>
-                                <p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer adipiscing ornare amet.</p>
-                            </div>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-                            <div class="inner">
-                                <h4>Snapped dark matter in the wild</h4>
-                                <p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer adipiscing ornare amet.</p>
-                            </div>
-                        </article>
-                    </div>
+                    <h3>Final Model</h3>
+
+                    <table>
+                        <tr>
+                            <th>Predictor</th>
+                            <th>Coeff</th>
+                            <th>P-Value</th>
+                        </tr>
+                        <tr>
+                            <td>Intercept</td>
+                            <td>122.6</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X1</td>
+                            <td>2.15</td>
+                            <td>0.0008</td>
+                        </tr>
+                        <tr>
+                            <td>X2</td>
+                            <td>-3.16</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X3</td>
+                            <td>-1.38</td>
+                            <td>0.0754</td>
+                        </tr>
+                        <tr>
+                            <td>I(X2^2)</td>
+                            <td>0.05</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>I(X3^3)</td>
+                            <td>0.07</td>
+                            <td>0.0539</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X4</td>
+                            <td>-0.17</td>
+                            <td>0.0368</td>
+                        </tr>
+                    </table>
+                    <p>
+                        With this new model, you can see that all of the p-values are now significant. 
+                        Additionally, our R^2 is now 0.95, only a 0.01 drop. Our R^2-pred, however, 
+                        is now 0.91, a 0.1 increase. 
+                    </p>
+
                 </div>
             </section>
 
