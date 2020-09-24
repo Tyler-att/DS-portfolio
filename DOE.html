@@ -1,0 +1,373 @@
+﻿<!DOCTYPE HTML>
+<!--
+    Read Only by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>Design of Experiment</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body class="is-preload">
+
+    <!-- Header -->
+    <section id="header">
+        <header>
+            <span class="image avatar"><img src="images/avatar.jpg" alt="" /></span>
+            <h1 id="logo"><a href="https://tyler-att.github.io/DS-portfolio/">Tyler Watt</a></h1>
+            <p>
+                I'm not sure what the most useful field of Mathematics is,<br />
+                but it's probably Statistics
+            </p>
+        </header>
+        <nav id="nav">
+            <ul>
+                <li><a href="#ProjectIntroduction" class="active">Project Introduction</a></li>
+                <li><a href="#InitialModel">Initial Model</a></li>
+                <li><a href="#FinalModel">Final Model</a></li>
+                <li><a href="#3DSurface">3d Surface</a></li>
+            </ul>
+        </nav>
+        <footer>
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+            </ul>
+        </footer>
+    </section>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- One -->
+            <section id="ProjectIntroduction">
+                <div class="image main" data-position="center">
+                    <img src="images/banner.jpg" alt="" />
+                </div>
+                <div class="container">
+                    <header class="major">
+                        <h2>Experimental Design</h2>
+                        <p>
+                            Optimal Statistical Experiments
+                        </p>
+                    </header>
+                    <p>
+                        All the analysis for this project was performed using R and the following libraries: <bold>readxl, apaTables, plotly, xlsx, akima,
+                        and MASS. </bold>The data for this regression analysis was collected based on a response surface DOE that had been provided to the
+                        client in a previous project. All client-specific information has been altered for confidentiality reasons, including the
+                        variable names and data. <br\>
+                            The intent of this project was to identify process inputs (X1-X4) to minimize a specific output (O1).
+                    </p>
+                </div>
+            </section>
+
+            <!-- Two -->
+            <section id="InitialModel">
+                <div class="container">
+                    <h3>Initial Model</h3>
+
+                    <table>
+                        <tr>
+                            <th>Predictor</th>
+                            <th>Coeff</th>
+                            <th>P-Value</th>
+                        </tr>
+                        <tr>
+                            <td>Intercept</td>
+                            <td>117.4</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X1</td>
+                            <td>2.055</td>
+                            <td>0.1725</td>
+                        </tr>
+                        <tr>
+                            <td>X2</td>
+                            <td>-3.341</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X3</td>
+                            <td>-0.9998</td>
+                            <td>0.4036</td>
+                        </tr>
+                        <tr>
+                            <td>X4</td>
+                            <td>3.025</td>
+                            <td>0.2252</td>
+                        </tr>
+                        <tr>
+                            <td>I(X1^2)</td>
+                            <td>0.03794</td>
+                            <td>0.5344</td>
+                        </tr>
+                        <tr>
+                            <td>I(X2^2)</td>
+                            <td>0.05060</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>I(X3^2)</td>
+                            <td>0.07057</td>
+                            <td>0.0920</td>
+                        </tr>
+                        <tr>
+                            <td>I(X4^2)</td>
+                            <td>-0.1446</td>
+                            <td>0.3965</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X2</td>
+                            <td>0.01157</td>
+                            <td>0.5000</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X3</td>
+                            <td>-0.05337</td>
+                            <td>0.4126</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X4</td>
+                            <td>-0.2526</td>
+                            <td>0.0713</td>
+                        </tr>
+                        <tr>
+                            <td>X2:X3</td>
+                            <td>0.01051</td>
+                            <td>0.4506</td>
+                        </tr>
+                        <tr>
+                            <td>X2:X4</td>
+                            <td>0.00067</td>
+                            <td>0.9812</td>
+                        </tr>
+                        <tr>
+                            <td>X3:X4</td>
+                            <td>-0.07363</td>
+                            <td>0.4961</td>
+                        </tr>
+                    </table>
+                    <pre>
+                    <code>
+client_data <- read_excel("Client_DOE.xlsx", sheet="Yield" )
+               lm.O1=lm(O1 ~ (X1 + X2 + X3 + X4)^2 + I(X1^2) + I(X2^2) + I(X3^2) + I(X4^2), data=client_data)
+               summary(lm.O1)
+                        </code>
+                    </pre>
+                    <p>
+                        The R^2 value for this model is 0.96, but it is clear the model is overfit. <br />
+                        There are actually a few key hints for this, the first being the non-significant p-values for most of the factors. Normally, the use of
+                        R^2-adj would be an indicator for an over-fit model, but in this case, it is 0.93, which is very close to the R^2. However, if we go through
+                        the effort to calculate R^2-pred, we will see a major drop: 0.81.
+                    </p>
+                    <pre>
+                    <code>
+pr <- residuals(lm.O1) /(1 - lm.influence(lm.O1)$hat)
+      PRESS <- sum(pr^2)
+O1.anova <- anova(lm.O1)
+tss <- sum(O1.anova$"Sum Sq")
+R2P <- 1 - PRESS/(tss)
+R2P
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_InitModel.jpg" width="300" height="300" alt="Initial Model Regression Assumptions">
+                    <p>
+                        One can also look at the residuals for an indication of an issue. Here, there is a bit of a challenge, as there are only 30 measurements total.
+                        This can make it difficult to assess normality with high levels of confidence, but in this case the normality does appear to be somewhat off.
+                        Similarly, the residuals vs fits graph looks like it is increasing here, but this could be due entirely to chance. There are only two values that fit
+                        greater than 200 (as expected with a response surface design), and these two are a little high, but with only two it's hard to tell.
+                    </p>
+                    <pre>
+                    <code>
+par(mfrow = c(2, 2))
+plot(lm.O1)
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
+            <!-- Three -->
+            <section id="FinalModel">
+                <div class="container">
+                    <h3>Final Model</h3>
+
+                    <table>
+                        <tr>
+                            <th>Predictor</th>
+                            <th>Coeff</th>
+                            <th>P-Value</th>
+                        </tr>
+                        <tr>
+                            <td>Intercept</td>
+                            <td>122.6</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X1</td>
+                            <td>2.15</td>
+                            <td>0.0008</td>
+                        </tr>
+                        <tr>
+                            <td>X2</td>
+                            <td>-3.16</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X3</td>
+                            <td>-1.38</td>
+                            <td>0.0754</td>
+                        </tr>
+                        <tr>
+                            <td>I(X2^2)</td>
+                            <td>0.05</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>I(X3^3)</td>
+                            <td>0.07</td>
+                            <td>0.0539</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X4</td>
+                            <td>-0.17</td>
+                            <td>0.0368</td>
+                        </tr>
+                    </table>
+                    <p>
+                        With this new model, you can see that all of the p-values are now significant.
+                        Additionally, our R^2 is now 0.95, only a 0.01 drop. Our R^2-pred, however,
+                        is now 0.91, a 0.1 increase.
+                    </p>
+                    <pre>
+                    <code>
+step.O1 = stepAIC(lm.O1, direction = "both", trace = FALSE)
+summary(step.O1)
+
+pr.step <- residuals(step.O1) /(1 - lm.influence(step.O1)$hat)
+           PRESS <- sum(pr.step^2)
+step.anova <- anova(step.O1)
+tss <- sum(step.anova$"Sum Sq")
+R2P <- 1 - PRESS/(tss)
+R2P
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_FinModel.jpg" width="300" height="300" alt="Final Model Regression Assumptions">
+                    <p>
+                        The residuals plots for this model are a slight improvement over the initial one. The residuals are more normal, though they do appear to trail off
+                        at the edges still. The vs fit chart still trails upward, but again, that is likley due to only having two higher-fitted measurements. <br />
+                        Several iterations of the final model were attempted to see if these defects in the model could be negated. However, none of them really improved any of
+                        these charts. And so, either there are missing components that need to be understood in order to fully understand the model, or these slight deviations
+                        are a side effect of the small sample size.
+                    </p>
+                    <pre>
+                    <code>
+par(mfrow = c(2, 2))
+plot(step.O1)
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
+            <!-- Four -->
+            <section id="3DSurface">
+                <div class="container">
+                    <h3>3D Surface</h3>
+                    <img src="images/OptReg_Surface.jpg" width="300" height="300" alt="Final Model Regression Assumptions">
+                    <p>
+                        3D Surface plots are not always the best way to summarize regression models, mainly because only two factors can be plotted at one time. In this case,
+                        I am showing X2 (y) and X3 (x), so the impact of X1 is not apparent. However, there is one very important use for providing these plots. In the model,
+                        X3 has a larger coefficient for its squared term than X2, indicating that X3 is at least as useful if not more useful than X2 for controlling the output.
+                        However, the coefficient does not take into consideration the design space. This response surface design covered the full range of X2 and X3 settings
+                        (they actually covered a wider range than the normal window with the axial points). X2 has a much larger design range than X3, which is very apparent in
+                        this surface plot. Although X3 has a slightly higher coefficient, it has a fourth of the design space. Therefore, although X3 has the higher coefficient,
+                        X2 is a much more useful lever for controlling the output.
+                    </p>
+                    <pre>
+                    <code>
+X1_C = 7.5
+X2_V = -35:105
+X3_V = -9.25:27.75
+X4_C = 4.5
+pred_func = function(x2, x3) predict(step.O1, newdata = data.frame(X1 = X1_C, X2 = x2, X3 = x3, X4 = X4_C))
+pred_mat = outer(X2_V, X3_V, FUN = pred_func)
+O1_surface = plot_ly(z = pred_mat, type = "surface")
+O1_surface
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_x1x2.jpg" width="300" height="300" alt="Surface plot for x1 and x2">
+                    <p>
+                        A similar conclusion can be made with X1 vs X2. X2 is much more useful for controlling the output than X1
+                    </p>
+                    <pre>
+                    <code>
+X1_V = -7.5:22.5
+X2_V = -35:105
+X3_C = 9.25
+X4_C = 4.5
+pred_func = function(x1, x2) predict(step.O1, newdata = data.frame(X1 = x1, X2 = x2, X3 = X3_C, X4 = X4_C))
+pred_mat = outer(X1_V, X2_V, FUN = pred_func)
+O1_surface = plot_ly(z = pred_mat, type = "surface")
+O1_surface
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
+            <!-- Five -->
+            <!--
+            <section id="ContactMe">
+                <div class="container">
+                    <h3>Contact Me</h3>
+                    <p>Integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum integer. Integer eu ante ornare amet commetus.</p>
+                    <form method="post" action="#">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
+                            <div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
+                            <div class="col-12"><input type="text" name="subject" id="subject" placeholder="Subject" /></div>
+                            <div class="col-12"><textarea name="message" id="message" placeholder="Message" rows="6"></textarea></div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" class="primary" value="Send Message" /></li>
+                                    <li><input type="reset" value="Reset Form" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+             -->
+        </div>
+
+        <!-- Footer -->
+        <section id="footer">
+            <div class="container">
+                <ul class="copyright">
+                    <li>&copy; Untitled. All rights reserved.</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>
