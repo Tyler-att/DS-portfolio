@@ -6,7 +6,7 @@
 -->
 <html>
 <head>
-    <title>Regression Modeling</title>
+    <title>Image Classification: Normal Distributions</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -158,10 +158,10 @@
                         </tr>
                     </table>
                     <pre>
-                        <code>
+                    <code>
 client_data <- read_excel("Client_DOE.xlsx", sheet="Yield" )
-lm.O1=lm(O1 ~ (X1 + X2 + X3 + X4)^2 + I(X1^2) + I(X2^2) + I(X3^2) + I(X4^2), data=client_data)
-summary(lm.O1)
+               lm.O1=lm(O1 ~ (X1 + X2 + X3 + X4)^2 + I(X1^2) + I(X2^2) + I(X3^2) + I(X4^2), data=client_data)
+               summary(lm.O1)
                         </code>
                     </pre>
                     <p>
@@ -171,9 +171,9 @@ summary(lm.O1)
                         the effort to calculate R^2-pred, we will see a major drop: 0.81.
                     </p>
                     <pre>
-                        <code>
+                    <code>
 pr <- residuals(lm.O1) /(1 - lm.influence(lm.O1)$hat)
-PRESS <- sum(pr^2)
+      PRESS <- sum(pr^2)
 O1.anova <- anova(lm.O1)
 tss <- sum(O1.anova$"Sum Sq")
 R2P <- 1 - PRESS/(tss)
@@ -188,7 +188,7 @@ R2P
                         greater than 200 (as expected with a response surface design), and these two are a little high, but with only two it's hard to tell.
                     </p>
                     <pre>
-                        <code>
+                    <code>
 par(mfrow = c(2, 2))
 plot(lm.O1)
                         </code>
@@ -249,12 +249,12 @@ plot(lm.O1)
                         is now 0.91, a 0.1 increase.
                     </p>
                     <pre>
-                        <code>
+                    <code>
 step.O1 = stepAIC(lm.O1, direction = "both", trace = FALSE)
 summary(step.O1)
 
 pr.step <- residuals(step.O1) /(1 - lm.influence(step.O1)$hat)
-PRESS <- sum(pr.step^2)
+           PRESS <- sum(pr.step^2)
 step.anova <- anova(step.O1)
 tss <- sum(step.anova$"Sum Sq")
 R2P <- 1 - PRESS/(tss)
@@ -270,7 +270,7 @@ R2P
                         are a side effect of the small sample size.
                     </p>
                     <pre>
-                        <code>
+                    <code>
 par(mfrow = c(2, 2))
 plot(step.O1)
                         </code>
@@ -293,7 +293,7 @@ plot(step.O1)
                         X2 is a much more useful lever for controlling the output.
                     </p>
                     <pre>
-                        <code>
+                    <code>
 X1_C = 7.5
 X2_V = -35:105
 X3_V = -9.25:27.75
@@ -309,7 +309,7 @@ O1_surface
                         A similar conclusion can be made with X1 vs X2. X2 is much more useful for controlling the output than X1
                     </p>
                     <pre>
-                        <code>
+                    <code>
 X1_V = -7.5:22.5
 X2_V = -35:105
 X3_C = 9.25
