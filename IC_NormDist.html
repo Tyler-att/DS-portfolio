@@ -69,7 +69,7 @@
                         <br />
                         <font size="+2">Initial Thoughts</font>
                         <br />
-                        One word of warning: this section will be very long and mostly just outlining the problem and going through my thought process for how to solve it. If you
+                        One word of warning: this section will be very long and will mostly just outline the problem and go through my thought process for how to solve it. If you 
                         are interested in seeing how I approach solving problems like these, it might be an interesting read. However, if you’re just here to see the algorithms
                         and statistics, feel free to skip down to <a href="#CreatingData">here</a>.
                         <br />
@@ -82,7 +82,7 @@
                         <br />
                         So enough with my weird self-detrimental style of humor, what’s the idea? In two words: distribution classification. I plan on using TensorFlow to create an
                         image classifier that will identify the distribution of a dataset based on its histogram. At the end of it, I am hoping I can give it a histogram of any
-                        distribution at all and it will tell me whether it is normally distributed or some other distribution.
+                        distribution at all, and it will tell me whether it is normally distributed or skewed to some degree in some direction.
                         <br />
                         <br />
                         So I guess the first question is: why? What value does a distribution identification AI give us, especially when statistical tests already exist for such
@@ -96,14 +96,14 @@
                         may have slight deviations from the normal distribution, but they will work just fine for most statistical tests. The issue here is if I have a few
                         thousand data points (or millions, as many data science problems have), the power of the Anderson-Darling test will be so high that only the most pristine,
                         beautifully normal datasets will make the cut. For example, the following image shows a distribution that fails the Anderson-Darling test at the 95%
-                        confidence level.
+                        confidence level, and it only has 1000 measurements.
                         <br />
                         <img src="images/Barely_Non_Normal.png" height="250" width="250" alt="Barely Non-Normal">
                         <br />
                         So all that to be said that my hope and dream for this AI is that it is worse at identifying distributions than the normally used statistical techniques.
                         All jokes aside, my inspiration for this comes from how the assumptions for linear regression are normally assessed. It’s rare to actually apply an actual
-                        normality test to the residuals of a model. Often, we look at the histogram or the normality plot and say, “yeah, that’s about right” and go from there. In
-                        the figure above, I'd be ecstatic to have such a nice looking dataset.
+                        normality test to the residuals of a model. Often if we do anything at all, we look at the histogram or the normality plot and say, “yeah, that’s about 
+                        right” and go from there. In the figure above, I'd be ecstatic to have such a nice looking dataset.
                         <br />
                         The second reason is I have plans for an AI equivalent to the Johnson transformation, and I think it would be interesting to have it be able to assess its
                         own work by looking at the histograms it creates.
@@ -113,9 +113,9 @@
                         <br />
                         So before even starting this project, I see a few obstacles I’m going to have to get around. The first is converting the image into something useable. All
                         the “hello world” level image identification projects use tiny thumbnail sized pictures with so few pixels even that I have difficulty classifying them. Is
-                        that a shoe, some pants, or a seven? Who knows? (Actually, I guess the AI knows . . .).
+                        that a shoe, some pants, bigfoot? Who knows? (Actually, I guess the AI knows . . .).
                         <br />
-                        <img src="images/Keras_Shoe.png" height="250" width="250" alt="Keras Shoe">
+                        <img src="images/Keras_Shoe.png" height="200" width="200" alt="Keras Shoe">
                         <br />
                         The main benefit of this is the neural network only needs a few dozen or so input neurons instead of 250,000. This significantly improves the efficiency of
                         the model and reduces the chances of some overfitting issues. Because the universe is rarely as generous as Keras when it comes to providing easily usable
@@ -156,49 +156,41 @@
                         myself.
                         <br />
                         First let's get all the imports out of the way. Here is everything I will end up using for this project.
-                        <pre>
-                        <code>
-import tensorflow as tf
+<pre><code>import tensorflow as tf
 from tensorflow import keras
 import matplotlib.pyplot as plt
 import numpy as np
 from random import sample
 from statistics import mean
-from cv2 import imread, imwrite, imshow, waitKey
-                        </code>
-                    </pre>
+from cv2 import imread, imwrite, imshow, waitKey</code></pre>
+
                         I think the idea of using three distributions and leveraging the Central Limit Theorem to get various levels of skew should work out best. Numpy's random
                         function is a good fit for this, since it has a wide variety of possible distributions to pull from. I think the beta and F distributions should be good
                         for the left-skewed and right-skewed images, respectively.
-                        <pre>
-                        <code>
-normal = list(np.random.normal(0, 1, 10000))
+                        <br /><br />
+<pre><code>normal = list(np.random.normal(0, 1, 10000))
 severe_left_skew = list(np.random.beta(7, 1, 10000))
-severe_right_skew = list(np.random.f(2, 50, 10000))
-                        </code>
-                    </pre>
+severe_right_skew = list(np.random.f(2, 50, 10000))</code></pre>
+
                         From here, it's simply a matter of taking random samples from these distributions to create the correct "level" of skew.
-                        <pre>
-                        <code>
-skew_list = [('severe_left', severe_left_skew, 2),
+                        <br /><br />
+<pre><code>skew_list = [('severe_left', severe_left_skew, 2),
 ('moderate_left', severe_left_skew, 5),
 ('mild_left', severe_left_skew, 8),
 ('normal', normal, 1),
 ('mild_right', severe_right_skew, 60),
 ('moderate_right', severe_right_skew, 30),
-('severe_right', severe_right_skew, 8)]
-                        </code>
-                    </pre>
+('severe_right', severe_right_skew, 8)]</code></pre>
                         So to explain, each of these seven tuples represents a given level of skew. For example, the second tuple is the "moderate_left" skew, which is derived by
-                        taking 5 samples from the severe_left_skew data in the previous block of code. Each histogram will include 300 data points and 20 bins. Here is all seven
+                        taking 5 samples from the severe_left_skew data in the previous block of code. Each histogram will include 300 data points and 20 bins. Here are all seven
                         skews together.
                         <img src="images/Seven Distribution Skews.png" alt="Seven Distributions Fomatted" />
                         It's at this point I want to point out that the "moderate right" skew is actually an average of 30 data points from a non-normal distribution, which kind
                         of goes against the convention that n = 30 is enough to make a distribution approximately normal. To be fair, it is a little less clear than the moderate
-                        left distribution, but even the mild right, which has an n = 60 sample size has a slight tail.
+                        left distribution, but even the mild right, which has an n = 60 sample size, has a slight tail.
                         <br />
                         <br />
-                        So now I can create the histograms, now I have to convert them into images, read them into numpy arrays, store all of them in a file so I don't have to
+                        So I can create the histograms, now I have to convert them into images, read them into numpy arrays, store all of them in a file so I don't have to
                         keep recreating the set, and then make sure the data can be loaded back in a tensorflow-friendly manner.
                         <br />
                         One other thing that we need to figure out is storage. I don't have room on my computer for 50 GB of jpgs, and I don't want to accidentally use up all of
@@ -210,21 +202,19 @@ skew_list = [('severe_left', severe_left_skew, 2),
                         <br /><img src="images/hist100_black.png" alt="100 DPI histogram BW" /><br />
                         Converting to black and white saves me a kB and also will probably be more useful for the neural network. Win win.
                         <br /><img src="images/hist50_black.png" alt="50 DPI histogram BW" /><br />
-                        Dropping down the size also helps significantly. This image is around 3.77 kB. Another thing I don't think is all that useful here is the axis. Let's see
-                        what happens when we drop those.
+                        Dropping down the image size also helps significantly. This image is only 3.77 kB. I doubt the neural network needs to worry about those axes either, so
+                        let's see what happens when we drop them.
                         <br /><img src="images/hist50_clean.png" alt="50 DPI histogram BW Clean" /><br />
-                        Wow, the axis alone cost more than the rest of the image. This "clean" figure is only 1.04 kB! I guess the only question now is how small do I want to make
-                        these figures? I could drop them down to 5 DPI if I wanted, but at what point do we start losing something important? One thing I am thinking about is
-                        when we get to actually making the model, we likely won't get a very good model by looking at individual pixels. A more common way to do image
-                        classification is to run grids across the image to get larger features. Since I am going to have seven categories, let's choose a size that gives an x-axis
-                        that is divisible by seven.
+                        This "clean" figure is only 1.04 kB, meaning the axes account for more memory than the histogram itself! I guess the only question now is how small do I
+                        want to make these figures? I could drop them down to 5 DPI if I wanted, but at what point do we start losing something important? One thing I am thinking
+                        about is how we probably won't get a very good model by looking at each individual pixel. A more common way to do image classification is to run grids
+                        across the image to capture larger features. Since I am going to have seven categories, let's choose a size that gives an x-axis that is divisible by seven.
                         <br /><img src="images/hist_7cols.png" alt="Seven Distributions Fomatted" /><br />
                         So this bad boy is 23 DPI, 577 bytes, and 147 pixels wide. This means we could break this image into seven columns 21 pixels wide. Consider a scenario
                         where you were shown a single column and were told where on the picture that column came from. I think from that information alone, you could at least
                         discern whether the graph was skewed left, right, or normal.
-                        <pre>
-                        <code>
-dist_train_data = []
+                        <br /><br />
+<pre><code>dist_train_data = []
 dist_test_data = []
 
 for i in range(100):
@@ -239,19 +229,17 @@ for i in range(100):
         dist_train_data.append(['severe_right', img])
 
 np.savez('dist_data/dist_train_data_6.npz', *dist_train_data)
-np.savez('dist_data/dist_test_data_6.npz', *dist_test_data)
-                         </code>
-                    </pre>
-                        Now you may notice here that this is only for the severe right skew. My original code did this for all seven skews and actuall did 500 figures each instead
-                        of 100, but my poor computer couldn't relaly handle it. Even after updating the algorithm to clear the lists each time didn't really help. After some
-                        thought, I considered that I may not need 500 figures each. Most other projects have gradient pixel values, but mine will be very binary. Black or white.
-                        So I ended up splitting into seven very similar for loops that generated 100 figures each.
+np.savez('dist_data/dist_test_data_6.npz', *dist_test_data)</code></pre>
+
+                        Now you may notice here that the above code only creates the severe right skew. My original code did this for all seven skews and actually did 500 figures
+                        each instead of just 100, but my poor computer couldn't really handle it. Even after updating the algorithm to clear the lists every 100 figures didn't
+                        really help. After some thought, I considered that I may not need 500 figures each. Most other projects have gradient pixel values, but mine will be very
+                        binary. Black or white. So I ended up splitting into seven very similar for loops that generated 100 figures each.
                         <br />
                         <br />
-                        Later I would combine each of these .npz files into larger training and test datasets. 
-                        <pre>
-                            <code>
-train_labels = []
+                        Later I would combine each of these .npz files into larger training and test datasets.
+                        <br /><br />
+<pre><code>train_labels = []
 train_imgs = []
 test_labels = []
 test_imgs = []
@@ -273,16 +261,16 @@ for key in dist:
 np.savez('dist_train_imgs.npz', *train_imgs)
 np.savez('dist_train_lbls.npz', *train_labels)
 np.savez('dist_test_imgs.npz', *test_imgs)
-np.savez('dist_test_lbls.npz', *test_labels)
-                            </code>
-                        </pre>
-                        I guess one notable thing here is that I had stored the datasets as lists, and numpy.load() is not a fan of working with objects. It's actually a useful 
-                        security thing. Apparently if the system is set to load objects, it can lead to running malware. Fortunately for me, I created all of this data myself, so 
-                        I don't really have to worry about the whole malware thing. Now I have a dozen or so pickles and four full datasets! Well sort of . . . there's still some 
+np.savez('dist_test_lbls.npz', *test_labels)</code></pre>
+
+                        I guess one notable thing here is that I had stored the datasets as lists, and numpy.load() is not a fan of working with objects. It's actually a useful
+                        security thing. Apparently if the system is set to load objects, it can lead to running malware. Fortunately for me, I created all of this data myself, so
+                        I don't really have to worry about the whole malware thing.
+                        <br /><br />
+                        OK, so now I have a dozen or so pickles and four full datasets! Well sort of . . . there's still some
                         final touches we need to get this data in a usable state.
-                        <pre>
-                            <code>
-# Converting categories to numeric values
+                        <br /><br />
+<pre><code># Converting categories to numeric values
 label_dict = {'severe_left': 0, 'moderate_left': 1, 'mild_left': 2, 'normal': 3,
 'mild_right': 4, 'moderate_right': 5, 'severe_right': 6}
 
@@ -305,11 +293,10 @@ test_lbls = np.array([label_dict[str(test_labels[tl_keys[i]])] for i in range(le
 
 # reshaping data to have a color dimension of 1
 train_data = np.reshape(train_data, (623, 110, 147, 1)).astype('float32') / 255
-test_data = np.reshape(test_data, (77, 110, 147, 1)).astype('float32') / 255
-                            </code>
-                        </pre>
-                        Yeah, so I completely forgot the analysis won't work with actual categorical data, so the first thing I do there is create a quick dictionary mapping the 
-                        original labels I gave to the numbers 1-6. Now when I load in the labels, I convert the dictionary using the map and move on. Also notice I no longer need 
+test_data = np.reshape(test_data, (77, 110, 147, 1)).astype('float32') / 255</code></pre>
+
+                        Yeah, so I completely forgot the analysis won't work with actual categorical data, so the first thing I do here is create a quick dictionary mapping the
+                        original labels I gave to the numbers 0-6. Now when I load in the labels, I convert the dictionary using the map and move on. Also notice I no longer need
                         any pickles, as I have split out the labels and the figures.
                     </p>
                 </div>
@@ -323,9 +310,8 @@ test_data = np.reshape(test_data, (77, 110, 147, 1)).astype('float32') / 255
                         OK, so there are a bunch of ways to go about doing this, but I am going to touch on two of them. The first is to try to use dense layers to connect
                         individual pixels to the final output. There are many issues with that, including major inefficiencies and the inability to capture larger features. I
                         went ahead and ran a dense layer for the fun of it, and the test results were 80% accurate.
-                        <pre>
-                        <code>
-model = keras.Sequential([
+
+<pre><code>model = keras.Sequential([
 keras.layers.Flatten(),
 keras.layers.Dense(512, activation = 'relu'),
 keras.layers.Dense(256, activation = 'relu'),
@@ -338,20 +324,18 @@ metrics = ['accuracy'])
 
 model.fit(train_data, train_lbls, epochs = 5, batch_size = 32)
 
-model.evaluate(test_data, test_lbls)
-                        </code>
-                    </pre>
+model.evaluate(test_data, test_lbls)</code></pre>
+
                         <img src="images/Dense_Model.jpg" height="250" width="650" alt="Dense Model">
-                        <br />
+                        <br /><br />
                         So the main thing here is that the model reached 98% accuracy pretty rapidly for the training set, but it wasn't nearly as successful with the test data. For
                         these kinds of figures, as simple as they are, I would expect a better job overall. This is a common issue with dense layers in image classification, and so
                         most people use alternatives like the Convolutional Neural Networks.
-                        <pre>
-                        <code>
-model = keras.Sequential([
-keras.layers.Flatten(),
-keras.layers.Dense(512, activation = 'relu'),
-keras.layers.Dense(256, activation = 'relu'),
+                        <br /><br />
+
+<pre><code>model = keras.Sequential([
+keras.layers.Conv2D(64, 21, activation = 'relu', input_shape = (110, 147, 1)),
+keras.layers.Conv2D(21, 7, activation = 'relu', input_shape = (110, 147, 1)),
 keras.layers.Dense(7, activation = 'softmax')
 ])
 
@@ -361,12 +345,11 @@ metrics = ['accuracy'])
 
 model.fit(train_data, train_lbls, epochs = 5, batch_size = 32)
 
-model.evaluate(test_data, test_lbls)
-                        </code>
-                    </pre>
-                    <img src="images/Convolution_Model.jpg" height="250" width="650" alt="CNN Model">
-                    <br />
-                    Now that's more what I'm talking about! At 95%, our model is doing about as well as most statistical tests, so I certainly can't complain.
+model.evaluate(test_data, test_lbls)</code></pre>
+
+                        <img src="images/Convolution_Model.jpg" height="250" width="650" alt="CNN Model">
+                        <br />
+                        Now that's more what I'm talking about! At 95%, our model is doing about as well as most statistical tests, so I certainly can't complain.
                     </p>
                 </div>
             </section>
@@ -376,18 +359,18 @@ model.evaluate(test_data, test_lbls)
                 <div class="container">
                     <h3>Post Mortem</h3>
                     <p>
-                        So there we have it, a quick little project to create an AI that can identify the level of skew in a distribution based on an image of the histogram.
-                        Despite everything, I did learn a several good points here.
+                        So there we have it, a quick little project to create an AI that can identify the level of skew in a distribution based on an image of its histogram.
+                        Despite everything, I did learn a few good points here.
                         <br />
                         <br />
                         I think the biggest thing is honestly that I need to work on a more efficient setup for my work. Most of the work I've done in Python has been through
-                        desktop IDEs like PyCharm. These are great for creating programs that sort image pixels in a spiraling pattern from the center, but they do not work very
-                        well for creating models, especially when you have to rerun only certain sections over and over again. I really feel I should have used a Jupyter notebook
-                        for this or any other cell-based system.
+                        desktop IDEs like PyCharm. These are great for creating programs that sort image pixels in a spiraling pattern from the center, but they don't really work 
+                        very well for machinge learning projects, especially when you have to rerun specific blocks of code over and over again. I really feel I should have used a 
+                        Jupyter notebook for this or any other cell-based system.
                         <br />
                         <br />
-                        I did still end up running into the pitfalls I feared, but they weren't too bad to get out of. The memory issue was the largest issue, and I do need to
-                        find another route for future, more complex projects. I could also consider using my better computer for this, but I would like to work on optimizations
+                        I did still end up running into the pitfalls I feared, but they weren't too bad to get out of. The memory problem was the largest issue, and I do need to
+                        find better routes for future, more complex projects. I could also consider using my better computer for this, but I would like to work on optimizations
                         first.
                         <br />
                         <br />
