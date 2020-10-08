@@ -180,7 +180,7 @@ R2P <- 1 - PRESS/(tss)
 R2P
                         </code>
                     </pre>
-                    <img src="images/OptReg_InitModel.jpg" width="300" height="300" alt="Initial Model Regression Assumptions">
+                    <img src="images/OptReg_InitModel.JPG" width="300" height="300" alt="Initial Model Regression Assumptions">
                     <p>
                         One can also look at the residuals for an indication of an issue. Here, there is a bit of a challenge, as there are only 30 measurements total.
                         This can make it difficult to assess normality with high levels of confidence, but in this case the normality does appear to be somewhat off.
@@ -261,7 +261,7 @@ R2P <- 1 - PRESS/(tss)
 R2P
                         </code>
                     </pre>
-                    <img src="images/OptReg_FinModel.jpg" width="300" height="300" alt="Final Model Regression Assumptions">
+                    <img src="images/OptReg_FinModel.JPG" width="300" height="300" alt="Final Model Regression Assumptions">
                     <p>
                         The residuals plots for this model are a slight improvement over the initial one. The residuals are more normal, though they do appear to trail off
                         at the edges still. The vs fit chart still trails upward, but again, that is likley due to only having two higher-fitted measurements. <br />
@@ -282,7 +282,7 @@ plot(step.O1)
             <section id="3DSurface">
                 <div class="container">
                     <h3>3D Surface</h3>
-                    <img src="images/OptReg_Surface.jpg" width="300" height="300" alt="Final Model Regression Assumptions">
+                    <img src="images/OptReg_Surface.JPG" width="300" height="300" alt="Final Model Regression Assumptions">
                     <p>
                         3D Surface plots are not always the best way to summarize regression models, mainly because only two factors can be plotted at one time. In this case,
                         I am showing X2 (y) and X3 (x), so the impact of X1 is not apparent. However, there is one very important use for providing these plots. In the model,
@@ -304,7 +304,7 @@ O1_surface = plot_ly(z = pred_mat, type = "surface")
 O1_surface
                         </code>
                     </pre>
-                    <img src="images/OptReg_x1x2.jpg" width="300" height="300" alt="Surface plot for x1 and x2">
+                    <img src="images/OptReg_x1x2.JPG" width="300" height="300" alt="Surface plot for x1 and x2">
                     <p>
                         A similar conclusion can be made with X1 vs X2. X2 is much more useful for controlling the output than X1
                     </p>
