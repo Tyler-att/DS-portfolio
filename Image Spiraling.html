@@ -1,0 +1,194 @@
+﻿<!DOCTYPE HTML>
+<!--
+    Read Only by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>Image Spiraling</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body class="is-preload">
+
+    <!-- Header -->
+    <section id="header">
+        <header>
+            <span class="image avatar"><img src="images/Profile_Picture.jpg" alt="Profile Picture" /></span>
+            <h1 id="logo"><a href="https://tyler-att.github.io/DS-portfolio/">Tyler Watt</a></h1>
+            <p>
+                I'm not sure what the most useful field of Mathematics is,<br />
+                but it's probably Statistics
+            </p>
+        </header>
+        <nav id="nav">
+            <ul>
+                <li><a href="#ProjectIntroduction" class="active">Project Introduction</a></li>
+                <li><a href="#ImageSpiraling">Image Spiraling</a></li>
+                <li><a href="#SpiralSorter">Spiral Sorter</a></li>
+            </ul>
+        </nav>
+        <footer>
+            <ul class="icons">
+                <li><a href="http://www.linkedin.com/in/tyler-watt1" class="icon brands fa-linkedin"><span class="external"></span></a></li>
+                <li><a href="index.html" class="icon solid fa-home"><span class="label">Home</span></a></li>
+            </ul>
+        </footer>
+    </section>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- One -->
+            <section id="ProjectIntroduction">
+                <div class="image main" data-position="center">
+                    <img src="images/banner.JPG" alt="" />
+                </div>
+                <div class="container">
+                    <header class="major">
+                        <h2>Image Spiraling</h2>
+                        <p>
+                            A Little Bit of Fun
+                        </p>
+                    </header>
+                    <p>
+                        So this is mostly just a little fun project of mine. I was inspired by a video I had seen a while ago that discussed sorting images by various pixel 
+                        properties (e.g. brightness, color, etc.). That particular video sorted each pixel linearly across the matrix of pixels, but I wanted to see if I could 
+                        sort some images in a spiraling fashion.
+                        <br />
+                        <br />
+                        Now, when I started this project, I didn't have a lot of experience with image manipulation in python (or any language, for that matter), so there were a 
+                        few things I had to learn. This project was mostly an exercise in problem solving. The final code isn't particularly complex, but since I was in new 
+                        territory here, this was good practice in breaking down complex problems into smaller, more easily managed parts.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Two -->
+            <section id="ImageSpiraling">
+                <div class="container">
+                    <h3>Image Spiraling</h3>
+                    <img src="images/spiraling_yin-yang.GIF" alt="Spiraling Yin Yang">
+
+                    <p>
+                        So before I could even start working on solving this problem, I needed to figure out how python interprets images. First things first, a quick pip install
+                        followed by <br />
+                        <pre><code>from cv2 import imread, imwrite, imshow, waitKey</code></pre><br />
+                        and now we are in business. I took some random photo I found online and used the imread function to determine what the image ends up becoming. Looks like
+                        the images are converted into numnpy arrays. OK, so that's famailiar territory to me, so I can work with that.
+                        <br />
+                        <br />
+                        OK, so if I'm going to try to spiral in image, I'm going to need to figure out what I even mean by that. What I'm invisioning is the equivalent of all of
+                        the pixels above the center point moving right, below the center point moving left, etc.
+                        <br />
+                        <br />
+                        My original plan was to find the center point in the matrix, scan through each pixel, and then adjust their rows and columns based on their location
+                        relative to the center. For instance, a pixel immediately to the right would go down one row, but a pixel down and to the right would go down one row and
+                        left one column. This of course led to some major diffulties such as certain pixels ending up in the same location, corner pixels ending up outside the
+                        picture, and empty holes being left in random locations. Fortunately, after a number of failed iterations of that program, I realized that, if I were
+                        working with a list instead of a matrix, all I would need to do is take the last item in the list and move it to the very front of the list.
+                        <br />
+                        <br />
+                        So with that in mind, I turned my thoughts towards how to transform a matrix into a spiraled list, like so:<br />
+                        <br />
+                        We want to convert
+                        <br /><br /><pre>
+[1,  2,  3,   4,  5,  6]
+[7,  8,  9,  10, 11, 12]
+[13, 14, 15, 16, 17, 18]
+[19, 20, 21, 22, 23, 24]
+[25, 26, 27, 28, 29, 30]
+                        </pre>
+                        into<br />
+                        <br />
+                        [1, 2, 3, 4, 5, 6, 12, 18, 24, 30, 29, 28, 27, 26, 25, 19, 13, 7, 8, 9, 10, 11, 17, 23, 22, 21, 20, 14, 15, 16]<br />
+                        So the first step in getting
+                        
+                        The R^2 value for this model is 0.96, but it is clear the model is overfit. <br />
+                        There are actually a few key hints for this, the first being the non-significant p-values for most of the factors. Normally, the use of
+                        R^2-adj would be an indicator for an over-fit model, but in this case, it is 0.93, which is very close to the R^2. However, if we go through
+                        the effort to calculate R^2-pred, we will see a major drop: 0.81.
+                    </p>
+                    <pre>
+                    <code>
+pr <- residuals(lm.O1) /(1 - lm.influence(lm.O1)$hat)
+      PRESS <- sum(pr^2)
+O1.anova <- anova(lm.O1)
+tss <- sum(O1.anova$"Sum Sq")
+R2P <- 1 - PRESS/(tss)
+R2P
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_InitModel.JPG" width="300" height="300" alt="Initial Model Regression Assumptions">
+                    <p>
+                        One can also look at the residuals for an indication of an issue. Here, there is a bit of a challenge, as there are only 30 measurements total.
+                        This can make it difficult to assess normality with high levels of confidence, but in this case the normality does appear to be somewhat off.
+                        Similarly, the residuals vs fits graph looks like it is increasing here, but this could be due entirely to chance. There are only two values that fit
+                        greater than 200 (as expected with a response surface design), and these two are a little high, but with only two it's hard to tell.
+                    </p>
+                    <pre>
+                    <code>
+par(mfrow = c(2, 2))
+plot(lm.O1)
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
+            <!-- Three -->
+            <section id="SpiralSorter">
+                <div class="container">
+                    <h3>Spiral Sorter</h3>
+
+                    <p>
+                        With this new model, you can see that all of the p-values are now significant.
+                        Additionally, our R^2 is now 0.95, only a 0.01 drop. Our R^2-pred, however,
+                        is now 0.91, a 0.1 increase.
+                    </p>
+                    <pre>
+                    <code>
+step.O1 = stepAIC(lm.O1, direction = "both", trace = FALSE)
+summary(step.O1)
+
+pr.step <- residuals(step.O1) /(1 - lm.influence(step.O1)$hat)
+           PRESS <- sum(pr.step^2)
+step.anova <- anova(step.O1)
+tss <- sum(step.anova$"Sum Sq")
+R2P <- 1 - PRESS/(tss)
+R2P
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_FinModel.JPG" width="300" height="300" alt="Final Model Regression Assumptions">
+                    <p>
+                        The residuals plots for this model are a slight improvement over the initial one. The residuals are more normal, though they do appear to trail off
+                        at the edges still. The vs fit chart still trails upward, but again, that is likley due to only having two higher-fitted measurements. <br />
+                        Several iterations of the final model were attempted to see if these defects in the model could be negated. However, none of them really improved any of
+                        these charts. And so, either there are missing components that need to be understood in order to fully understand the model, or these slight deviations
+                        are a side effect of the small sample size.
+                    </p>
+                    <pre>
+                    <code>
+par(mfrow = c(2, 2))
+plot(step.O1)
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>
