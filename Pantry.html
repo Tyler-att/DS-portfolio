@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<!--
+    Read Only by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>The Pantry</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body class="is-preload">
+
+    <!-- Header -->
+    <section id="header">
+        <header>
+            <span class="image avatar"><img src="images/Profile_Picture.jpg" alt="Profile Picture" /></span>
+            <h1 id="logo"><a href="https://tyler-att.github.io/DS-portfolio/">Tyler Watt</a></h1>
+            <p>
+                I'm not sure what the most useful field of Mathematics is,<br />
+                but it's probably Statistics
+            </p>
+        </header>
+        <nav id="nav">
+            <ul>
+                <li><a href="#ProjectIntroduction" class="active">Project Introduction</a></li>
+                <li><a href="#TheGUI">The GUI</a></li>
+                <li><a href="#TheSQL">The SQL</a></li>
+                <li><a href="#FinalThoughts">Final Thoughts</a></li>
+            </ul>
+        </nav>
+        <footer>
+            <ul class="icons">
+                <li><a href="http://www.linkedin.com/in/tyler-watt1" class="icon brands fa-linkedin"><span class="external"></span></a></li>
+                <li><a href="index.html" class="icon solid fa-home"><span class="label">Home</span></a></li>
+            </ul>
+        </footer>
+    </section>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- One -->
+            <section id="ProjectIntroduction">
+                <div class="image main" data-position="center">
+                    <img src="images/banner.JPG" alt="" />
+                </div>
+                <div class="container">
+                    <header class="major">
+                        <h2>The Pantry</h2>
+                        <p>
+                            Creating Weekly Meal Plans
+                        </p>
+                    </header>
+                    <p>
+                        Every week, my wife and I spend about 5 minutes quickly putting together a poorly constructed meal plan.
+                        These conversations usually go something like this:</br>
+                        </br>
+                        What do you want?</br>
+                        I don't know, what do you want?</br>
+                        I don't know. Spaghetti?</br>
+                        We always have spaghetti.</br>
+                        Well what do you want?</br>
+                        I don't know.</br>
+                        </br>
+                        And this cycle continues. The issue is that it is difficult to remember all of the recipes we have
+                        enjoyed in the past, and even if we had them all in front of us, we seem to have some decision
+                        fatigue when deciding which ones to have.</br>
+                        And so, since at the time I was also wanting to learn SQL, I asked myself, "why not just make
+                        python do it for me?" And that's what we have here. </br>
+                        This projgram will have the following capabilities:</br>
+                        <ol>
+                            <li>Ability to input and store recipes</li>
+                            <li>Can create a full week's meal plan with fewer than 3 steps (if it isn't simple, we won't use it)</li>
+                            <li>Can view and edit stored recipes</li>
+                            <li>Ability to search through all recipes based on multiple search terms</li>
+                        </ol>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Two -->
+            <section id="TheGUI">
+                <div class="container">
+                    <h3>The GUI</h3>
+                    
+                    The GUI we will be using for this project is Tkinter. It's the classic Python library for making GUIs, and
+                    it should have everything we need. </br>
+                    Tkinter is actually very simple once you start using it. It's basic principle is 1) create the thing and
+                    2) place the thing. </br>
+                    <img src="images/ThePantry/BlnkCreateMP.PNG" alt="" width = "400" height = "400"/></br>
+                    So as you can see, this is a very basic gui. Two entry boxes and a few buttons. The Total Servings
+                    section is mostly meant for how many servings you'll need through the week. For my wife and me, we need
+                    four servings per day (1 per person for both lunch and dinner). This amounts to 28 servings total. The
+                    Minimum Servings is asking what the smallest number of servings you would like a single meal to last. This
+                    will be important if we want to ensure we always have leftovers. Broiled salmon may be delicious, but if it
+                    won't last through leftovers, we probably don't want to include it (at least not during the work week).</br>
+                    The General Plan is the stuff we use every week. For instance, we have oatmeal and coffee every morning.
+                    This ensures that the common items don't get forgotten during our planning process.</br>
+                    <img src="images/ThePantry/FldCreateMP.PNG" alt="" width = "400" height = "400"/></br>
+                    The resulting .txt document is quite large, so here's a snippet.</br>
+                    
+                    <img src="images/ThePantry/PlanSnippet.PNG" alt="" width = "600" height = "300"/></br>
+
+                    Note how the top recipe here is a "Dinner - Stand Alone" category. This means the entree itself can
+                    exist as its own dinner, and no sides are needed. There is another category called "Dinner - Needs More"
+                    that means the entree isn't by itself a full dinner, so it will need some sides. When the meal plan is
+                    being built, all "Needs More" dinners will automatically be paired with one carb side and one vegetable
+                    side, like the following example. </br>
+                    <img src="images/ThePantry/PlanSnippet2.PNG" alt="" width = "600" height = "300"/></br>
+                    Also note how the sides are both at least as large as the entree. This is not by coincidence. The
+                    program will first look for sides that are at least as many servings as the entree. This is important
+                    because you don't want to run out of sides on Tuesday while your chicken lasts until Thursday. If it
+                    can't find sides that are large enough, it will grab any side available.</br>
+                    </br>
+                    Here is our search tab. This will be important for finding recipes when we don't want to just have a
+                    randomly selected one. </br>
+                    <img src="images/ThePantry/BlnkSearch.PNG" alt="" width = "400" height = "400"/></br>
+                    If we want to see every single recipe, we only have to click the "Search Recipes" button with none of the
+                    entries filled in.</br>
+                    <img src="images/ThePantry/FullSearch.PNG" alt="" width = "400" height = "400"/></br>
+                    What if I wanted to pull up a recipe but didn't want to look through all of them? If I remembered part of
+                    the recipe's name, I could enter that for a search. For instance, if I enter "salad" and search, I get this:
+                    </br>
+                    <img src="images/ThePantry/SaladSearch.PNG" alt="" width = "400" height = "400"/></br>
+                    What if we didn't know the name but knew it had shrimp in it? Or what if we didn't have anything in
+                    particular in mind, but we wanted to do something with shrimp? Fortunately, we can search by ingredient.</br>
+                    <img src="images/ThePantry/ShrimpSearch.PNG" alt="" width = "400" height = "400"/></br>
+                    There are also a number of categories we can look for. If we wanted a dessert, for instance, we could pull
+                    up all of the desserts.</br>
+                    <img src="images/ThePantry/Categories.PNG" alt="" width = "400" height = "300"/></br>
+                    In this case, we look for stand alone entrees. Perhaps we want quicker meals that require fewer dishes.
+                    <img src="images/ThePantry/CatSearch.PNG" alt="" width = "400" height = "400"/></br>
+                    We can also search by serving size. If we have family coming over, grabbing the 2 serving meal probably
+                    won't cut it.</br>
+                    <img src="images/ThePantry/SSSearch.PNG" alt="" width = "400" height = "400"/></br>
+                    We aren't restricted to just one search term, either.</br>
+                    <img src="images/ThePantry/MultiSearch.PNG" alt="" width = "400" height = "400"/></br>
+                    And if we want to actually interact with the recipes, we can always go here. This is also the location to
+                    add new recipes to the database.</br>
+                    <img src="images/ThePantry/BlnkRecipes.PNG" alt="" width = "400" height = "400"/></br>
+                    For instance, entering the name here and clicking "View Recipe" button. From here we can update the recipe
+                    if we found something wrong with it or remove it entirely if we decided it wasn't very good. And if we
+                    wanted to add this recipe to this week's meal plan, it's as simple as hitting the "Add to Meal Plan" button.
+                    </br>
+                    <img src="images/ThePantry/GnocchiRec.PNG" alt="" width = "400" height = "400"/></br>                  
+                    
+                    <pre>
+                    <code>
+pr <- residuals(lm.O1) /(1 - lm.influence(lm.O1)$hat)
+      PRESS <- sum(pr^2)
+O1.anova <- anova(lm.O1)
+tss <- sum(O1.anova$"Sum Sq")
+R2P <- 1 - PRESS/(tss)
+R2P
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_InitModel.JPG" width="300" height="300" alt="Initial Model Regression Assumptions">
+                    <p>
+                        One can also look at the residuals for an indication of an issue. Here, there is a bit of a challenge, as there are only 30 measurements total.
+                        This can make it difficult to assess normality with high levels of confidence, but in this case the normality does appear to be somewhat off.
+                        Similarly, the residuals vs fits graph looks like it is increasing here, but this could be due entirely to chance. There are only two values that fit
+                        greater than 200 (as expected with a response surface design), and these two are a little high, but with only two it's hard to tell.
+                    </p>
+                    <pre>
+                    <code>
+par(mfrow = c(2, 2))
+plot(lm.O1)
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
+            <!-- Three -->
+            <section id="FinalModel">
+                <div class="container">
+                    <h3>Final Model</h3>
+
+                    <table>
+                        <tr>
+                            <th>Predictor</th>
+                            <th>Coeff</th>
+                            <th>P-Value</th>
+                        </tr>
+                        <tr>
+                            <td>Intercept</td>
+                            <td>122.6</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X1</td>
+                            <td>2.15</td>
+                            <td>0.0008</td>
+                        </tr>
+                        <tr>
+                            <td>X2</td>
+                            <td>-3.16</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>X3</td>
+                            <td>-1.38</td>
+                            <td>0.0754</td>
+                        </tr>
+                        <tr>
+                            <td>I(X2^2)</td>
+                            <td>0.05</td>
+                            <td>0.0000</td>
+                        </tr>
+                        <tr>
+                            <td>I(X3^3)</td>
+                            <td>0.07</td>
+                            <td>0.0539</td>
+                        </tr>
+                        <tr>
+                            <td>X1:X4</td>
+                            <td>-0.17</td>
+                            <td>0.0368</td>
+                        </tr>
+                    </table>
+                    <p>
+                        With this new model, you can see that all of the p-values are now significant.
+                        Additionally, our R^2 is now 0.95, only a 0.01 drop. Our R^2-pred, however,
+                        is now 0.91, a 0.1 increase.
+                    </p>
+                    <pre>
+                    <code>
+step.O1 = stepAIC(lm.O1, direction = "both", trace = FALSE)
+summary(step.O1)
+
+pr.step <- residuals(step.O1) /(1 - lm.influence(step.O1)$hat)
+           PRESS <- sum(pr.step^2)
+step.anova <- anova(step.O1)
+tss <- sum(step.anova$"Sum Sq")
+R2P <- 1 - PRESS/(tss)
+R2P
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_FinModel.JPG" width="300" height="300" alt="Final Model Regression Assumptions">
+                    <p>
+                        The residuals plots for this model are a slight improvement over the initial one. The residuals are more normal, though they do appear to trail off
+                        at the edges still. The vs fit chart still trails upward, but again, that is likley due to only having two higher-fitted measurements. <br />
+                        Several iterations of the final model were attempted to see if these defects in the model could be negated. However, none of them really improved any of
+                        these charts. And so, either there are missing components that need to be understood in order to fully understand the model, or these slight deviations
+                        are a side effect of the small sample size.
+                    </p>
+                    <pre>
+                    <code>
+par(mfrow = c(2, 2))
+plot(step.O1)
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
+            <!-- Four -->
+            <section id="3DSurface">
+                <div class="container">
+                    <h3>3D Surface</h3>
+                    <img src="images/OptReg_Surface.JPG" width="300" height="300" alt="Final Model Regression Assumptions">
+                    <p>
+                        3D Surface plots are not always the best way to summarize regression models, mainly because only two factors can be plotted at one time. In this case,
+                        I am showing X2 (y) and X3 (x), so the impact of X1 is not apparent. However, there is one very important use for providing these plots. In the model,
+                        X3 has a larger coefficient for its squared term than X2, indicating that X3 is at least as useful if not more useful than X2 for controlling the output.
+                        However, the coefficient does not take into consideration the design space. This response surface design covered the full range of X2 and X3 settings
+                        (they actually covered a wider range than the normal window with the axial points). X2 has a much larger design range than X3, which is very apparent in
+                        this surface plot. Although X3 has a slightly higher coefficient, it has a fourth of the design space. Therefore, although X3 has the higher coefficient,
+                        X2 is a much more useful lever for controlling the output.
+                    </p>
+                    <pre>
+                    <code>
+X1_C = 7.5
+X2_V = -35:105
+X3_V = -9.25:27.75
+X4_C = 4.5
+pred_func = function(x2, x3) predict(step.O1, newdata = data.frame(X1 = X1_C, X2 = x2, X3 = x3, X4 = X4_C))
+pred_mat = outer(X2_V, X3_V, FUN = pred_func)
+O1_surface = plot_ly(z = pred_mat, type = "surface")
+O1_surface
+                        </code>
+                    </pre>
+                    <img src="images/OptReg_x1x2.JPG" width="300" height="300" alt="Surface plot for x1 and x2">
+                    <p>
+                        A similar conclusion can be made with X1 vs X2. X2 is much more useful for controlling the output than X1
+                    </p>
+                    <pre>
+                    <code>
+X1_V = -7.5:22.5
+X2_V = -35:105
+X3_C = 9.25
+X4_C = 4.5
+pred_func = function(x1, x2) predict(step.O1, newdata = data.frame(X1 = x1, X2 = x2, X3 = X3_C, X4 = X4_C))
+pred_mat = outer(X1_V, X2_V, FUN = pred_func)
+O1_surface = plot_ly(z = pred_mat, type = "surface")
+O1_surface
+                        </code>
+                    </pre>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <section id="footer">
+            <div class="container">
+                <ul class="copyright">
+                    <li>&copy; Untitled. All rights reserved.</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>
